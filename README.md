@@ -4,7 +4,6 @@
 
 <p align="center">
   <a href="https://github.com/silverhack/monkey365/releases"><img src="https://img.shields.io/github/v/release/silverhack/monkey365?display_name=tag&sort=semver" alt="GitHub release"></a>
-  <a href="https://github.com/silverhack/monkey365/releases"><img alt="Release Date" src="https://img.shields.io/github/release-date/release/silverhack/monkey365"></a>
   <a href="https://www.powershellgallery.com/packages/monkey365/"><img src="https://img.shields.io/powershellgallery/v/monkey365" alt="PowerShell Gallery"></a>
   <a href="https://github.com/silverhack/monkey365/stargazers"><img src="https://img.shields.io/github/stars/silverhack/monkey365?style=social" alt="Stars"></a>
   <a href="https://twitter.com/tr1ana"><img src="https://img.shields.io/twitter/follow/tr1ana?style=social" alt="Follow @tr1ana"></a>
@@ -137,6 +136,11 @@ The following standards are supported by Monkey365:
 More standards will be added in next releases (NIST, HIPAA, GDPR, PCI-DSS, etc..) as they are available.
 
 Additional information such as Installation or advanced usage can be found in the following [link](https://silverhack.github.io/monkey365/)
+
+
+> [!TIP]
+> **Give us a Star!** If you find this tool useful, please consider giving it a [star ⭐ on GitHub](https://github.com/silverhack/monkey365)! It helps more people discover the project and keeps it evolving.
+
 
 # Star History
 
