@@ -1,16 +1,13 @@
 <p align="center">
   <img src="https://user-images.githubusercontent.com/5271640/181045413-1d17333c-0533-404a-91be-2070ccc6ee29.png" width="500" height="600" />
 </p>
-<p align="center">
-  <a href="https://github.com/silverhack/monkey365"><img alt="License" src="https://img.shields.io/github/license/silverhack/monkey365"></a>
-  <a href="https://github.com/silverhack/monkey365"><img alt="Pester" src="https://github.com/silverhack/monkey365/actions/workflows/pester.yml/badge.svg"></a>
-  <a href="https://github.com/silverhack/monkey365"><img alt="ScriptAnalyzer" src="https://github.com/silverhack/monkey365/actions/workflows/scriptanalyzer.yml/badge.svg"></a>
-  <a href="https://github.com/silverhack/monkey365"><img alt="Lines" src="https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/silverhack/monkey365/badge?filter=.ps1$,.psm1$&style=flat&logoColor=white&label=Lines%20of%20Code"></a>
-  <a href="https://twitter.com/tr1ana"><img alt="Twitter" src="https://img.shields.io/twitter/follow/tr1ana?style=social"></a>
-  <a href="https://github.com/silverhack/monkey365/releases"><img alt="GitHub Downloads" src="https://img.shields.io/github/downloads/silverhack/monkey365/total?style=flat&logo=powershell&label=GitHub%20Release%20Download"></a>
-  <a href="https://www.powershellgallery.com/packages/monkey365"><img alt="PowerShell Gallery" src="https://img.shields.io/powershellgallery/v/monkey365.svg?label=latest+version"></a>
-  <a href="https://www.powershellgallery.com/packages/monkey365"><img alt="PowerShell Gallery Downloads" src="https://img.shields.io/powershellgallery/dt/monkey365.svg?style=flat&logo=powershell&label=PSGallery%20Download"></a>
-</p>
+[![GitHub release](https://img.shields.io/github/v/release/silverhack/monkey365?display_name=tag&sort=semver)](https://github.com/silverhack/monkey365/releases)
+[![PowerShell Gallery](https://img.shields.io/powershellgallery/v/monkey365)](https://www.powershellgallery.com/packages/monkey365/)
+[![License](https://img.shields.io/github/license/silverhack/monkey365)](https://github.com/silverhack/monkey365/blob/main/LICENSE)
+[![Stars](https://img.shields.io/github/stars/silverhack/monkey365?style=social)](https://github.com/silverhack/monkey365/stargazers)
+[![Follow @tr1ana](https://img.shields.io/twitter/follow/tr1ana?style=social)](https://twitter.com/tr1ana)
+[![GitHub Downloads](https://img.shields.io/github/downloads/silverhack/monkey365/total?style=flat&logo=powershell&label=GitHub%20Release%20Download)](https://github.com/silverhack/monkey365/releases)
+[![PowerShell Gallery Downloads](https://img.shields.io/powershellgallery/dt/monkey365.svg?style=flat&logo=powershell&label=PSGallery%20Download)](https://www.powershellgallery.com/packages/monkey365)
 
 <p
   <i>Monkey365</i> is an Open Source security tool that can be used to easily conduct not only Microsoft 365, but also Azure subscriptions and Microsoft Entra ID security configuration reviews without the significant overhead of learning tool APIs or complex admin panels from the start. To help with this effort, Monkey365 also provides several ways to identify security gaps in the desired tenant setup and configuration. Monkey365 provides valuable recommendations on how to best configure those settings to get the most out of your Microsoft 365 tenant or Azure subscription.
@@ -125,11 +122,16 @@ By default, the HTML report shows you the CIS (Center for Internet Security) Ben
 The following standards are supported by Monkey365:
 
 * CIS Microsoft Azure Foundations Benchmark v3.0.0
+* CIS Microsoft Azure Database Services Benchmark v2.0.0
 * CIS Microsoft 365 Foundations Benchmark v3.0.0, v4.0.0 and V5.0.0
 
 More standards will be added in next releases (NIST, HIPAA, GDPR, PCI-DSS, etc..) as they are available.
 
 Additional information such as Installation or advanced usage can be found in the following [link](https://silverhack.github.io/monkey365/)
+
+> [!TIP]
+> **Give us a Star!** If you find this tool useful, please consider giving it a [star ⭐ on GitHub](https://github.com/silverhack/monkey365)! It helps more people discover the project and keeps it evolving.
+
 
 # Star History
 
