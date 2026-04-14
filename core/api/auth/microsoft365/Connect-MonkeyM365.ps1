@@ -40,7 +40,75 @@ Function Connect-MonkeyM365{
         [parameter(Mandatory=$false, HelpMessage="Used when tokens are imported from init param")]
         [Switch]$Connected
     )
-    foreach ($service in $O365Object.initParams.Collect){
+    #First we will try to connect to generic Microsoft 365 services
+    $msg = @{
+        MessageData = ($message.TokenRequestInfoMessage -f "Microsoft Right Management Services")
+        callStack = (Get-PSCallStack | Select-Object -First 1);
+        logLevel = 'info';
+        InformationAction = $O365Object.InformationAction;
+        Tags = @('TokenRequestInfoMessage');
+    }
+    Write-Information @msg
+    #Connect to Microsoft Rights Management Services
+    $p = @{
+        Resource = $O365Object.Environment.AADRM;
+        AzureService = "AzurePowershell";
+        InformationAction = $O365Object.InformationAction;
+        Verbose = $O365Object.verbose;
+        Debug = $O365Object.debug;
+    }
+    $O365Object.auth_tokens.AADRM = Connect-MonkeyGenericApplication @p
+    #$O365Object.auth_tokens.AADRM = Connect-MonkeyAADRM
+    If($null -ne $O365Object.auth_tokens.AADRM){
+        #Get Service locator url
+        $service_locator = Get-AADRMServiceLocatorUrl
+        #set internal object
+        If($O365Object.Environment.ContainsKey('aadrm_service_locator')){
+            $O365Object.Environment.aadrm_service_locator = $service_locator;
+        }
+        Else{
+            $O365Object.Environment.Add('aadrm_service_locator',$service_locator)
+        }
+        $O365Object.onlineServices.Item("AADRM") = $true
+    }
+    Else{
+        $msg = @{
+            MessageData = ($message.NotConnectedTo -f "Microsoft Right Management Services");
+            callStack = (Get-PSCallStack | Select-Object -First 1);
+            logLevel = 'warning';
+            InformationAction = $O365Object.InformationAction;
+            Tags = @('Monkey365FormsError');
+        }
+        Write-Warning @msg
+    }
+    #Check if scope for Microsoft Forms is present
+    $msg = @{
+        MessageData = ($message.TokenRequestInfoMessage -f "Microsoft Forms")
+        callStack = (Get-PSCallStack | Select-Object -First 1);
+        logLevel = 'info';
+        InformationAction = $O365Object.InformationAction;
+        Tags = @('TokenRequestInfoMessage');
+    }
+    Write-Information @msg
+    #Connect to Microsoft Forms
+    If($null -ne $O365Object.auth_tokens.MSGraph){
+        #Get scopes
+        $scopes = Read-JWTtoken -token $O365Object.auth_tokens.MSGraph.AccessToken | Select-Object -ExpandProperty scp -ErrorAction Ignore
+        If($scopes -match '^OrgSettings-Forms\.Read(?:Write)?\.All$'){
+            $O365Object.onlineServices.Item("Forms") = $true
+        }
+        Else{
+            $msg = @{
+                MessageData = ($message.NotConnectedTo -f "Microsoft Forms. Scope OrgSettings-Forms.Read.All was not detected");
+                callStack = (Get-PSCallStack | Select-Object -First 1);
+                logLevel = 'warning';
+                InformationAction = $O365Object.InformationAction;
+                Tags = @('Monkey365FormsError');
+            }
+            Write-Warning @msg
+        }
+    }
+    ForEach ($service in $O365Object.initParams.Collect){
         switch ($service.ToLower()) {
             #Connect to Exchange Online
             'exchangeonline'{
@@ -65,9 +133,14 @@ Function Connect-MonkeyM365{
                     $moduleFile = Get-PSExoModuleFile @p
                     If($moduleFile){
                         $O365Object.onlineServices.Item($service) = $true
-                        #Connect AIPService
-                        Connect-MonkeyAIPService
-                        Start-Sleep -Milliseconds 100
+                        $msg = @{
+                            MessageData = ($message.ConnectedTo -f "Exchange Online");
+                            callStack = (Get-PSCallStack | Select-Object -First 1);
+                            logLevel = 'info';
+                            InformationAction = $O365Object.InformationAction;
+                            Tags = @('TokenReceivedInfoMessage');
+                        }
+                        Write-Information @msg
                     }
                     Else{
                         $msg = @{
@@ -122,9 +195,14 @@ Function Connect-MonkeyM365{
                         $moduleFile = Get-PSExoModuleFile @p
                         If($moduleFile){
                             $O365Object.onlineServices.Item($service) = $true
-                            #Connect AIPService
-                            Connect-MonkeyAIPService
-                            Start-Sleep -Milliseconds 100
+                            $msg = @{
+                                MessageData = ($message.ConnectedTo -f "Microsoft Purview");
+                                callStack = (Get-PSCallStack | Select-Object -First 1);
+                                logLevel = 'info';
+                                InformationAction = $O365Object.InformationAction;
+                                Tags = @('TokenReceivedInfoMessage');
+                            }
+                            Write-Information @msg
                         }
                         Else{
                             $msg = @{
@@ -307,9 +385,14 @@ Function Connect-MonkeyM365{
                     #Check If connected to SharePoint
                     If($O365Object.isSharePointAdministrator -or $null -ne $O365Object.spoSites){
                         $O365Object.onlineServices.Item($service) = $true
-                        #Connect AIPService
-                        Connect-MonkeyAIPService
-                        Start-Sleep -Milliseconds 100
+                        $msg = @{
+                            MessageData = ($message.ConnectedTo -f "SharePoint Online admin site");
+                            callStack = (Get-PSCallStack | Select-Object -First 1);
+                            logLevel = 'info';
+                            InformationAction = $O365Object.InformationAction;
+                            Tags = @('TokenReceivedInfoMessage');
+                        }
+                        Write-Information @msg
                     }
                 }
             }
@@ -375,122 +458,6 @@ Function Connect-MonkeyM365{
                         Tags = @('Monkey365TeamsError');
                     }
                     Write-Warning @msg;
-                }
-            }
-            #Connect to Microsoft365
-            'microsoft365'{
-                If($O365Object.AuthType.ToLower() -eq 'client_credentials' -or $O365Object.AuthType.ToLower() -eq 'certIficate_credentials'){
-                    $msg = @{
-                        MessageData = ($message.SPNotAllowedAuthFlowErrorMessage -f "Microsoft 365 Admin portal");
-                        callStack = (Get-PSCallStack | Select-Object -First 1);
-                        logLevel = 'warning';
-                        InformationAction = $O365Object.InformationAction;
-                        Tags = @('Monkey365AdminPortalError');
-                    }
-                    Write-Warning @msg
-                    $msg = @{
-                        MessageData = ($message.NotConnectedTo -f $service);
-                        callStack = (Get-PSCallStack | Select-Object -First 1);
-                        logLevel = 'warning';
-                        InformationAction = $O365Object.InformationAction;
-                        Tags = @('Monkey365AdminPortalError');
-                    }
-                    Write-Warning @msg
-                    continue;
-                }
-                $msg = @{
-                    MessageData = ($message.TokenRequestInfoMessage -f "Microsoft Forms")
-                    callStack = (Get-PSCallStack | Select-Object -First 1);
-                    logLevel = 'info';
-                    InformationAction = $O365Object.InformationAction;
-                    Tags = @('TokenRequestInfoMessage');
-                }
-                Write-Information @msg
-                #Connect to Microsoft Forms
-                $p = @{
-                    Resource = (Get-WellKnownAzureService -AzureService MicrosoftForms);
-                    AzureService = "AzurePowershell";
-                    InformationAction = $O365Object.InformationAction;
-                    Verbose = $O365Object.verbose;
-                    Debug = $O365Object.debug;
-                }
-                $O365Object.auth_tokens.Forms = Connect-MonkeyGenericApplication @p
-                #$O365Object.auth_tokens.Forms = Connect-MonkeyFormsForOffice
-                If($null -ne $O365Object.auth_tokens.Forms){
-                    $O365Object.onlineServices.Item($service) = $true
-                }
-                Start-Sleep -Milliseconds 10
-                $msg = @{
-                    MessageData = ($message.TokenRequestInfoMessage -f "Microsoft Right Management Services")
-                    callStack = (Get-PSCallStack | Select-Object -First 1);
-                    logLevel = 'info';
-                    InformationAction = $O365Object.InformationAction;
-                    Tags = @('TokenRequestInfoMessage');
-                }
-                Write-Information @msg
-                #Connect to Microsoft Rights Management Services
-                $p = @{
-                    Resource = $O365Object.Environment.AADRM;
-                    AzureService = "AzurePowershell";
-                    RedirectUri = "https://aadrm.com/adminpowershell";
-                    InformationAction = $O365Object.InformationAction;
-                    Verbose = $O365Object.verbose;
-                    Debug = $O365Object.debug;
-                }
-                $O365Object.auth_tokens.AADRM = Connect-MonkeyGenericApplication @p
-                #$O365Object.auth_tokens.AADRM = Connect-MonkeyAADRM
-                If($null -ne $O365Object.auth_tokens.AADRM){
-                    #Get Service locator url
-                    $service_locator = Get-AADRMServiceLocatorUrl
-                    #set internal object
-                    If($O365Object.Environment.ContainsKey('aadrm_service_locator')){
-                        $O365Object.Environment.aadrm_service_locator = $service_locator;
-                    }
-                    Else{
-                        $O365Object.Environment.Add('aadrm_service_locator',$service_locator)
-                    }
-                    $O365Object.onlineServices.Item($service) = $true
-                }
-                Start-Sleep -Milliseconds 10
-                $msg = @{
-                    MessageData = ($message.TokenRequestInfoMessage -f "Microsoft 365 Admin Portal")
-                    callStack = (Get-PSCallStack | Select-Object -First 1);
-                    logLevel = 'info';
-                    InformationAction = $O365Object.InformationAction;
-                    Tags = @('TokenRequestInfoMessage');
-                }
-                Write-Information @msg
-                #Connect to Admin blade
-                $p = @{
-                    Resource = $O365Object.Environment.OfficeAdminPortal;
-                    AzureService = "AzureCli";
-                    InformationAction = $O365Object.InformationAction;
-                    Verbose = $O365Object.verbose;
-                    Debug = $O365Object.debug;
-                }
-                $O365Object.auth_tokens.M365Admin = Connect-MonkeyGenericApplication @p
-                #$O365Object.auth_tokens.M365Admin = Connect-MonkeyM365AdminPortal
-                If($null -ne $O365Object.auth_tokens.M365Admin){
-                    #Test If connection to Admin blade is allowed
-                    $p = @{
-                        InformationAction = $O365Object.InformationAction;
-                        Verbose = $O365Object.verbose;
-                        Debug = $O365Object.debug;
-                    }
-                    $isConnected = Test-M365PortalConnection @p
-                    If($isConnected){
-                        $O365Object.onlineServices.Item($service) = $true
-                    }
-                    Else{
-                        $msg = @{
-                            MessageData = ($message.NotConnectedTo -f $service);
-                            callStack = (Get-PSCallStack | Select-Object -First 1);
-                            logLevel = 'warning';
-                            InformationAction = $O365Object.InformationAction;
-                            Tags = @('Monkey365AdminPortalError');
-                        }
-                        Write-Warning @msg
-                    }
                 }
             }
             #Connect to Fabric
