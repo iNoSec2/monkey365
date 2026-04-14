@@ -130,9 +130,6 @@ More standards will be added in next releases (NIST, HIPAA, GDPR, PCI-DSS, etc..
 Additional information such as Installation or advanced usage can be found in the following [link](https://silverhack.github.io/monkey365/)
 
 
-> [!TIP]
-> **Give us a Star!** If you find this tool useful, please consider giving it a [star ⭐ on GitHub](https://github.com/silverhack/monkey365)! It helps more people discover the project and keeps it evolving.
-
 
 # Star History
 
