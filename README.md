@@ -1,17 +1,21 @@
 <p align="center">
   <img src="https://user-images.githubusercontent.com/5271640/181045413-1d17333c-0533-404a-91be-2070ccc6ee29.png" width="500" height="600" />
 </p>
-[![GitHub release](https://img.shields.io/github/v/release/silverhack/monkey365?display_name=tag&sort=semver)](https://github.com/silverhack/monkey365/releases)
-[![PowerShell Gallery](https://img.shields.io/powershellgallery/v/monkey365)](https://www.powershellgallery.com/packages/monkey365/)
-[![License](https://img.shields.io/github/license/silverhack/monkey365)](https://github.com/silverhack/monkey365/blob/main/LICENSE)
-[![Stars](https://img.shields.io/github/stars/silverhack/monkey365?style=social)](https://github.com/silverhack/monkey365/stargazers)
-[![Follow @tr1ana](https://img.shields.io/twitter/follow/tr1ana?style=social)](https://twitter.com/tr1ana)
-[![GitHub Downloads](https://img.shields.io/github/downloads/silverhack/monkey365/total?style=flat&logo=powershell&label=GitHub%20Release%20Download)](https://github.com/silverhack/monkey365/releases)
-[![PowerShell Gallery Downloads](https://img.shields.io/powershellgallery/dt/monkey365.svg?style=flat&logo=powershell&label=PSGallery%20Download)](https://www.powershellgallery.com/packages/monkey365)
 
-<p
-  <i>Monkey365</i> is an Open Source security tool that can be used to easily conduct not only Microsoft 365, but also Azure subscriptions and Microsoft Entra ID security configuration reviews without the significant overhead of learning tool APIs or complex admin panels from the start. To help with this effort, Monkey365 also provides several ways to identify security gaps in the desired tenant setup and configuration. Monkey365 provides valuable recommendations on how to best configure those settings to get the most out of your Microsoft 365 tenant or Azure subscription.
+<p align="center">
+  <a href="https://github.com/silverhack/monkey365/releases"><img src="https://img.shields.io/github/v/release/silverhack/monkey365?display_name=tag&sort=semver" alt="GitHub release"></a>
+  <a href="https://www.powershellgallery.com/packages/monkey365/"><img src="https://img.shields.io/powershellgallery/v/monkey365" alt="PowerShell Gallery"></a>
+  <a href="https://github.com/silverhack/monkey365/blob/main/LICENSE"><img src="https://img.shields.io/github/license/silverhack/monkey365" alt="License"></a>
+  <a href="https://github.com/silverhack/monkey365/stargazers"><img src="https://img.shields.io/github/stars/silverhack/monkey365?style=social" alt="Stars"></a>
+  <a href="https://twitter.com/tr1ana"><img src="https://img.shields.io/twitter/follow/tr1ana?style=social" alt="Follow @tr1ana"></a>
 </p>
+
+<p align="center">
+  <a href="https://github.com/silverhack/monkey365/releases"><img src="https://img.shields.io/github/downloads/silverhack/monkey365/total?style=flat&logo=powershell&label=GitHub%20Release%20Download" alt="GitHub Downloads"></a>
+  <a href="https://www.powershellgallery.com/packages/monkey365"><img src="https://img.shields.io/powershellgallery/dt/monkey365.svg?style=flat&logo=powershell&label=PSGallery%20Download" alt="PowerShell Gallery Downloads"></a>
+</p>
+
+*Monkey365* is an Open Source security tool that can be used to easily conduct not only Microsoft 365, but also Azure subscriptions and Microsoft Entra ID security configuration reviews without the significant overhead of learning tool APIs or complex admin panels from the start. To help with this effort, Monkey365 also provides several ways to identify security gaps in the desired tenant setup and configuration. Monkey365 provides valuable recommendations on how to best configure those settings to get the most out of your Microsoft 365 tenant or Azure subscription.
 
 # Introduction
 
@@ -128,8 +132,6 @@ The following standards are supported by Monkey365:
 More standards will be added in next releases (NIST, HIPAA, GDPR, PCI-DSS, etc..) as they are available.
 
 Additional information such as Installation or advanced usage can be found in the following [link](https://silverhack.github.io/monkey365/)
-
-
 
 # Star History
 
