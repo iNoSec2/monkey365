@@ -25,9 +25,9 @@
 
 Monkey365 is a collector-based PowerShell module that can be used to review the security posture of your cloud environment. With Monkey365 you can scan for potential misconfigurations and security issues in public cloud accounts according to security best practices and compliance standards, across Azure, Microsoft Entra ID, and Microsoft 365 core applications.
 
-# Installation
+## Installation
 
-## PowerShell Gallery
+### PowerShell Gallery
 
 You can install Monkey365 using the built-in `Install-Module` command. The examples below will install Monkey365 in your  <a href="https://learn.microsoft.com/en-us/powershell/module/powershellget/install-module?view=powershellget-3.x#-scope" target="_blank">installation scope</a> depending on your PowerShell version. You can control this using the `-Scope <AllUsers/CurrentUser>` parameter.
 
@@ -53,7 +53,7 @@ To force install monkey365:
 Install-Module -Name monkey365 -Scope CurrentUser -Force
 ```
 
-## GitHub
+### GitHub
 
 You can download the latest release by clicking [here](https://github.com/silverhack/monkey365/releases). Once downloaded, you must extract the file and extract the files to a suitable directory.
 
@@ -76,7 +76,7 @@ You can also use the ```Force``` parameter in case you want to reimport the Monk
 Import-Module C:\temp\monkey365 -Force
 ```
 
-# Basic Usage
+## Basic Usage
 
 The following command will provide the list of available command line options:
 
@@ -111,11 +111,33 @@ $options = @{
 Invoke-Monkey365 @options
 ```
 
-# Regulatory compliance checks
+### Running Monkey365 in a National or Gov Cloud Environments
 
-Monkey365 helps streamline the process of performing not only Microsoft 365, but also Azure subscriptions and Azure Active Directory Security Reviews.
+The `-Environment` parameter can be used on `Invoke-Monkey365` to specify the name of the cloud environment to connect to. By default the global cloud (AzurePublic) is used.
 
-160+ checks covering industry defined security best practices for Microsoft 365, Azure and Azure Active Directory. 
+Allowed values include:
+
+- AzurePublic (default, if `Environment` parameter is not specified)
+- AzureChina
+- AzureUSGovernment
+
+```powershell
+$options = @{
+    Environment = "AzureUSGovernment";
+    Instance = 'Microsoft365';
+    Collect = @('ExchangeOnline','SharePointOnline');
+    PromptBehavior = 'SelectAccount';
+    IncludeEntraID = $true;
+    ExportTo = "JSON","HTML";
+}
+Invoke-Monkey365 @options
+```
+
+## Regulatory compliance checks
+
+Monkey365 helps streamline the process of performing not only Microsoft 365, but also Azure subscriptions and Microsoft Entra ID Security Reviews.
+
+160+ checks covering industry defined security best practices for Microsoft 365, Azure and Entra ID. 
 
 Monkey365 will help consultants to assess cloud environment and to analyze the risk factors according to controls and best practices. The report will contain structured data for quick checking and verification of the results.
 
@@ -123,7 +145,7 @@ Monkey365 will help consultants to assess cloud environment and to analyze the r
   <img src="https://silverhack.github.io/monkey365/assets/images/htmlreport.png" />
 </p>
 
-# Supported standards
+## Supported standards
 
 By default, the HTML report shows you the CIS (Center for Internet Security) Benchmark. The CIS Benchmarks for Azure and Microsoft 365 are guidelines for security and compliance best practices.
 
@@ -142,7 +164,7 @@ Additional information such as Installation or advanced usage can be found in th
 > **Give us a Star!** If you find this tool useful, please consider giving it a [star ⭐ on GitHub](https://github.com/silverhack/monkey365)! It helps more people discover the project and keeps it evolving.
 
 
-# Star History
+## Star History
 
 <a href="https://www.star-history.com/#silverhack/monkey365&type=date&legend=top-left">
  <picture>
